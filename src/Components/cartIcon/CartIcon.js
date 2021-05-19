@@ -18,6 +18,11 @@ const mapDispatchToProps = (dispatch) => ({
   toggleCartHidden: () => dispatch(toggleCartHidden()),
 });
 
+//This will always be called
+// Here this will run everytime we change update redux state so if value is same then also it will run
+// reduce always return same value as everytime its called but in redux we are returning new object so it will rerender our component
+// So we dont want unnnecessary rerenders
+// so we need to add memoization - this is implemeneted using a library called reselect
 const mapStateToProps = ({ cart: { cartItems } }) => ({
   itemCount: cartItems.reduce(
     (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,
