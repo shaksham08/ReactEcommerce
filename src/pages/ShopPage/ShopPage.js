@@ -11,6 +11,9 @@ import { updateCollections } from "../../redux/shop/shop.actions";
 import CollectionPage from "../collection/collection";
 
 class ShopPage extends React.Component {
+  state = {
+    isLoading: true,
+  };
   unsubscribeFromSnapshot = null;
   componentDidMount() {
     const { updateCollections } = this.props;
@@ -18,16 +21,28 @@ class ShopPage extends React.Component {
     collectionRef.onSnapshot((snapshop) => {
       const collectionMap = convertCollectionsSnapshopToMaps(snapshop);
       updateCollections(collectionMap);
+      this.setState({ isLoading: false });
     });
   }
   render() {
     const { match } = this.props;
     return (
       <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionsOverview} />
+        <Route
+          exact
+          path={`${match.path}`}
+          render={(routerProps) => (
+            <CollectionsOverview
+              isLoading={this.state.isLoading}
+              {...routerProps}
+            />
+          )}
+        />
         <Route
           path={`${match.path}/:collectionId`}
-          component={CollectionPage}
+          render={(routerProps) => (
+            <CollectionPage isLoading={this.state.isLoading} {...routerProps} />
+          )}
         />
       </div>
     );
