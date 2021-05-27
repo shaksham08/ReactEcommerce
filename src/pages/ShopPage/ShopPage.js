@@ -13,7 +13,7 @@ import CollectionPage from "../collection/collection";
 
 class ShopPage extends React.Component {
   componentDidMount() {
-    const { fetchCollectionsStartAsync } = this.props();
+    const { fetchCollectionsStartAsync } = this.props;
     fetchCollectionsStartAsync();
   }
 
@@ -48,7 +48,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapPropsToDispatch = (dispatch) => ({
-  fetchCollectionsStartAsync: dispatch(fetchCollectionsStartAsync()),
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
 });
 
 export default connect(mapStateToProps, mapPropsToDispatch)(ShopPage);
